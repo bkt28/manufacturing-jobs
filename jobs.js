@@ -42,26 +42,43 @@ function plotJobs(stateTimeseries) {
 	.call(yAxis);
 
 	var states = [{state: "MI", color: "magenta"}, {state: "OH", color: "cyan"},
-		{state: "WI", color: "darkorange"}, {state: "PA", color: "#777777"}];
+		{state: "WI", color: "darkorange"}, {state: "PA", color: "khaki"}];
 
-	for (var i = 0; i < 4; i++) {
-		svg.append("line")
-		.attr("x1", width - padding * 2 - 30)
-		.attr("x2", width - padding - 30)
-		.attr("y1", padding + 20 * i)
-		.attr("y2", padding + 20 * i)
-		.style("stroke", function () { return states[i].color; })
-		.style("stroke-width", 2)
-		.style("fill", "none");
+	svg.append("text")
+	.attr("x", 140)
+	.attr("y", 100)
+	.attr("alignment-baseline", "middle")
+	.attr("text-anchor", "start")
+	.style("font-family", "'Montserrat', sans-serif")
+	.style("fill", "#FF8811")
+	.text("Ohio");
 
-		svg.append("text")
-		.attr("x", width - padding - 20)
-		.attr("y", padding + 20 * i)
-		.attr("alignment-baseline", "middle")
-		.attr("text-anchor", "start")
-		.style("font-family", "'Montserrat', sans-serif")
-		.text(function () { return states[i].state; });
-	}
+	svg.append("text")
+	.attr("x", 140)
+	.attr("y", 160)
+	.attr("alignment-baseline", "middle")
+	.attr("text-anchor", "start")
+	.style("font-family", "'Montserrat', sans-serif")
+	.style("fill", "#392F5A")
+	.text("Pennsylvania");
+
+	svg.append("text")
+	.attr("x", 140)
+	.attr("y", 245)
+	.attr("alignment-baseline", "middle")
+	.attr("text-anchor", "start")
+	.style("font-family", "'Montserrat', sans-serif")
+	.style("fill", "#9DD9D2")
+	.text("Michigan");
+
+	svg.append("text")
+	.attr("x", 140)
+	.attr("y", 390)
+	.attr("alignment-baseline", "middle")
+	.attr("text-anchor", "start")
+	.style("font-family", "'Montserrat', sans-serif")
+	.style("fill", "#F0E68C")
+	.text("Wisconsin");
 
 	var line = d3.line()
 	.x(function (d) { return xScale(d.date); })
@@ -72,15 +89,24 @@ function plotJobs(stateTimeseries) {
 		.attr("d", line(d.values))
 		.style("stroke", function () {
 			if (d.key == "MI")
-				return "cyan";
+				return "#9DD9D2";
 			if (d.key == "OH")
-				return "darkorange";
+				return "#FF8811";
 			if (d.key == "WI")
-				return "#777777";
-			return "magenta"
+				return "#F0E68C";
+			return "#392F5A"
 		})
 		.style("stroke-width", 2)
-		.style("fill", "none");
+		.style("fill", "none")
+		.style("cursor", "pointer")
+		.on("mouseover", function () {
+			d3.select(this).transition()
+			.style("stroke-width", 4);
+		})
+		.on("mouseout", function() {
+			d3.select(this).transition()
+			.style("stroke-width", 2);
+		});
 	});
 
 	svg.append("text")
