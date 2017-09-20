@@ -1,6 +1,6 @@
 var height = 500;
-var width = 800;
-var padding = 75;
+var width = 900;
+var padding = 50;
 
 var stateTimeseries;
 
@@ -46,7 +46,7 @@ function plotJobs(stateTimeseries) {
 
 	svg.append("text")
 	.attr("x", 140)
-	.attr("y", 100)
+	.attr("y", 85)
 	.attr("alignment-baseline", "middle")
 	.attr("text-anchor", "start")
 	.style("font-family", "'Montserrat', sans-serif")
@@ -55,7 +55,7 @@ function plotJobs(stateTimeseries) {
 
 	svg.append("text")
 	.attr("x", 140)
-	.attr("y", 160)
+	.attr("y", 150)
 	.attr("alignment-baseline", "middle")
 	.attr("text-anchor", "start")
 	.style("font-family", "'Montserrat', sans-serif")
@@ -64,7 +64,7 @@ function plotJobs(stateTimeseries) {
 
 	svg.append("text")
 	.attr("x", 140)
-	.attr("y", 245)
+	.attr("y", 240)
 	.attr("alignment-baseline", "middle")
 	.attr("text-anchor", "start")
 	.style("font-family", "'Montserrat', sans-serif")
@@ -73,7 +73,7 @@ function plotJobs(stateTimeseries) {
 
 	svg.append("text")
 	.attr("x", 140)
-	.attr("y", 390)
+	.attr("y", 410)
 	.attr("alignment-baseline", "middle")
 	.attr("text-anchor", "start")
 	.style("font-family", "'Montserrat', sans-serif")
@@ -99,11 +99,11 @@ function plotJobs(stateTimeseries) {
 		.style("stroke-width", 2)
 		.style("fill", "none")
 		.style("cursor", "pointer")
-		.on("mouseover", function () {
+		.on("mouseenter", function () {
 			d3.select(this).transition()
 			.style("stroke-width", 4);
 		})
-		.on("mouseout", function() {
+		.on("mouseleave", function() {
 			d3.select(this).transition()
 			.style("stroke-width", 2);
 		});
