@@ -2,15 +2,9 @@ var height = 500;
 var width = 800;
 var padding = 75;
 
-// A useful variable reference outside the scope of the tsv callback.
 var stateTimeseries;
 
-// Plot the employment timeseries for each selected state from 1990 to 2016
 function plotJobs(stateTimeseries) {
-	// Define scales, axes.
-	// Add <path> elements for NY, TN, WA, OH
-	// Add <text> labels for all states at the right margin.
-	
 	var svg = d3.select("#jobsPlot").append("svg")
 	.attr("width", width)
 	.attr("height", height);
@@ -100,7 +94,6 @@ function plotJobs(stateTimeseries) {
 	.text("SOURCE: BUREAU OF LABOR STATISTICS");
 }
 
-// Parse incoming data appropriately: numbers as numbers, dates as Dates.
 function parseLine(row) {
 	return {
 		series: row["Series"],
@@ -114,7 +107,6 @@ var formatter = d3.format(".4f");
 var scaleX = d3.scaleLinear().domain([new Date("1990-01-01"),
 	new Date("2016-02-01")]).range([0, width]);
 
-//var selectedStates = ["NY", "TN", "OH", "WA"];
 var selectedStates = ["MI", "OH", "WI", "PA"];
 
 function isSelected(d) {
@@ -127,15 +119,10 @@ function isSelected(d) {
 d3.tsv("manufacturing.txt", parseLine, function (error, data) {
 	stateTimeseries = d3.nest().key(function (d) { return d.state; }).entries(data);
 
-	// Filter the data to include only selected states
 	stateTimeseries = stateTimeseries.filter(isSelected);
 		
 	stateTimeseries.forEach(function (d) {
 		var values = d.values;
-		
-		// Add smoothing. For each object in the time series, set the Jobs variable
-		// to the average of the previous value, the current value, and the next value.
-		// Do not modify the first and last objects.
 
 		var jobs = [];
 		values.forEach(function (d) {
@@ -146,17 +133,10 @@ d3.tsv("manufacturing.txt", parseLine, function (error, data) {
 			if (i != 0 && i != values.length - 1)
 				d.jobs = (jobs[i - 1] + d.jobs + jobs[i + 1]) / 3;
 		});
-		
-		// Calculate the "velocity" of jobs. For each object in the time series,
-		// add a variable "v" that is the difference between the current Jobs value
-		// and the previous value. Set v for the first object to 0.
 
 		values.forEach(function (d, i) {
 			(i == 0) ? d.v = 0 : d.v = d.jobs - values[i - 1].jobs;
 		});
-
-		// Add smoothing to the "v" values, in the same way you did for the Jobs
-		// values above.
 		
 		var v = [];
 		values.forEach(function (d) {
@@ -169,7 +149,6 @@ d3.tsv("manufacturing.txt", parseLine, function (error, data) {
 		});
 	});
 	
-	// Create two plots.
 	plotJobs(stateTimeseries);
 	plotJobChange(stateTimeseries);
 });
